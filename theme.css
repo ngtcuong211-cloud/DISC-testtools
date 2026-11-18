@@ -1,0 +1,22 @@
+/* theme.css: đổi màu và tông giao diện tại đây */
+:root {
+  color-scheme: light;
+  --bg: #f3f6ff;            /* nền trang */
+  --white: #ffffff;         /* nền ô nhập, nút phụ */
+  --card-bg: #ffffff;       /* nền thẻ */
+  --surface: #eef2fc;       /* nền phụ, thanh tiến độ */
+  --navy: #0b1530;          /* tiêu đề, chữ nhấn */
+  --ink: #2a3552;           /* chữ thường */
+  --muted: #66718f;         /* chữ phụ */
+  --line: #dde4f3;          /* đường viền */
+  --accent: #2f6bff;        /* màu nhấn chính (xanh điện) */
+  --accent-rgb: 47 107 255;
+  --accent-2: #8b5cf6;      /* màu nhấn phụ (tím) */
+  --accent-2-rgb: 139 92 246;
+  --on-accent: #ffffff;     /* chữ trên nút nhấn */
+  --focus: #2f6bff;
+  --radius: 16px;
+  --shadow: 0 12px 32px rgb(20 40 100 / .08);
+  --glow: 0 10px 24px rgb(var(--accent-rgb) / .28);
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
