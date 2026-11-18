@@ -150,21 +150,26 @@ function result() {
   const single = leaders.length === 1;
   const primary = leaders[0];
   const others = KEYS.filter(key => !leaders.includes(key)).sort((x, y) => scores[y] - scores[x]);
+  const color = key => types[key].color;
   const heading = leaders.map(key => types[key].name).join(' & ');
   const sub = leaders.map(key => types[key].en).join(' & ');
   const summary = single ? types[primary].desc : 'Phản xạ của bạn đa hướng. Tùy tình huống, bạn có thể đổi sang nhiều cách làm khác nhau.';
+  const step = 100 / leaders.length;
+  const heroBg = single ? color(primary)
+    : `linear-gradient(90deg, ${leaders.map((key, i) => `${color(key)} ${i * step}% ${(i + 1) * step}%`).join(', ')})`;
+  const chips = leaders.flatMap(key => FOCUS_TAGS[key]).map(t => `<span>${esc(t)}</span>`).join('');
 
-  const bar = [...leaders, ...others]
-    .map(key => `<span style="width:${share(scores, key)}%;background:${types[key].color}"></span>`).join('');
-  const legend = [
-    ...leaders.map(key => `<li><span class="rp-dot" style="background:${types[key].color}"></span><span class="rp-name">${key} · ${esc(types[key].name)}</span><span class="rp-tag">Nổi trội</span></li>`),
-    ...others.map(key => `<li><span class="rp-dot" style="background:${types[key].color}"></span><span class="rp-name">${key} · ${esc(types[key].name)}</span><span class="rp-val">${pct(share(scores, key))}</span></li>`)
-  ].join('');
+  const cells = KEYS.map(key => {
+    const lead = leaders.includes(key);
+    return `<div class="po-cell${lead ? ' is-lead' : ''}" style="background:${color(key)}">
+      ${lead ? '<span class="po-tag">Nổi trội</span>' : ''}
+      <span class="po-letter">${key}</span>
+      <span class="po-cname">${esc(types[key].name)}</span>
+      <span class="po-pct">${pct(share(scores, key))}</span>
+    </div>`;
+  }).join('');
 
-  const leaderRows = leaders.map(key => `<div class="rp-leader">
-      <span class="rp-dot" style="background:${types[key].color}"></span>
-      <div><h3>${esc(types[key].name)}</h3><span class="rp-focus">${FOCUS_TAGS[key].join(' · ')}</span><p>${rich(types[key].strength)}</p></div>
-    </div>`).join('');
+  const strengths = leaders.map(key => `<p><b>${esc(types[key].name)}:</b> ${rich(types[key].strength)}</p>`).join('');
 
   const second = others[0];
   const close = single && share(scores, second) >= share(scores, primary) * 0.6;
@@ -177,49 +182,46 @@ function result() {
   const advice = others.map(other => {
     const tip = INTERACTION[primary]?.[other];
     if (!tip) return '';
-    return `<li style="--type:${types[other].color}">
+    return `<li class="po-adv" style="background:${color(other)}">
       <h3>${other} · ${esc(types[other].name)}</h3>
-      <p><span class="rp-label">Nên</span>${esc(tip.do)}</p>
-      <p><span class="rp-label rp-avoid">Tránh</span>${esc(tip.avoid)}</p>
+      <p><b>Nên</b>${esc(tip.do)}</p>
+      <p><b>Tránh</b>${esc(tip.avoid)}</p>
     </li>`;
   }).join('');
 
-  return `<div class="wrap rp">
-    <p class="rp-eyebrow">Bản xem trước · Hồ sơ DISC${state.name ? ` · ${esc(state.name)}` : ''}</p>
-    <h1 class="rp-title" id="result-title">${esc(heading)}</h1>
-    <p class="rp-sub">${esc(sub)}</p>
-    <p class="rp-summary">${rich(summary)}</p>
-
-    <section class="rp-section" aria-labelledby="mix-title">
-      <h2 id="mix-title">Tỉ lệ phản xạ</h2>
-      <div class="rp-bar" aria-hidden="true">${bar}</div>
-      <ul class="rp-legend">${legend}</ul>
+  return `<div class="po">
+    <section class="po-hero" style="background:${heroBg}" aria-labelledby="result-title">
+      <p class="po-eyebrow">Bản xem trước · Hồ sơ DISC${state.name ? ` · ${esc(state.name)}` : ''}</p>
+      <h1 class="po-title" id="result-title">${esc(heading)}</h1>
+      <p class="po-sub">${esc(sub)}</p>
+      <p class="po-summary">${rich(summary)}</p>
+      <div class="po-chips">${chips}</div>
     </section>
 
-    <section class="rp-section" aria-labelledby="strength-title">
-      <h2 id="strength-title">Nhóm nổi trội</h2>
-      ${leaderRows}
+    <div class="po-grid" aria-label="Tỉ lệ bốn nhóm">${cells}</div>
+
+    <section class="po-block" aria-labelledby="strength-title">
+      <h2 id="strength-title">Thế mạnh</h2>
+      ${strengths}
     </section>
 
-    <section class="rp-section" aria-labelledby="meaning-title">
+    <section class="po-block" aria-labelledby="meaning-title">
       <h2 id="meaning-title">Ý nghĩa</h2>
-      <p class="rp-body">${rich(reading)}</p>
+      <p>${rich(reading)}</p>
     </section>
 
-    <section class="rp-section" aria-labelledby="advice-title">
+    <section class="po-block" aria-labelledby="advice-title">
       <h2 id="advice-title">Khi giao tiếp với các nhóm khác</h2>
-      <ul class="rp-advice">${advice}</ul>
+      <ul class="po-advs">${advice}</ul>
     </section>
 
-    <section class="rp-next" aria-labelledby="next-title">
+    <section class="po-plan" aria-labelledby="next-title">
       <h2 id="next-title">Kế hoạch hành động</h2>
       <p>Gợi ý áp dụng cụ thể vào công việc và đội nhóm được trao đổi trực tiếp trong buổi khám phá riêng cùng Cường.</p>
       <a class="button" href="${esc(PRESENTER.booking)}" ${bookingAttrs}>Cùng khám phá sâu hơn ${arrow}</a>
     </section>
 
-    <div class="rp-bottom">
-      <button class="button text compact" data-action="reset">Khám phá lại</button>
-    </div>
+    <div class="po-foot"><button class="button text compact" data-action="reset">Khám phá lại</button></div>
   </div>`;
 }
 

@@ -731,3 +731,42 @@ dialog p { margin: 12px 0; color: var(--muted); font-size: 15px; }
 .rp-leader .rp-dot { margin-top: 0; }
 .rp-leader > div > h3 { line-height: 1.3; }
 .site-footer > strong { text-transform: uppercase; letter-spacing: .08em; font-size: 16px; }
+
+/* Kết quả v4: phong cách poster Insights */
+.po { max-width: 860px; margin: 0 auto; padding: 36px 0 56px; display: grid; gap: 12px; }
+.po-hero { color: #fff; padding: 40px 36px; border-radius: 22px; }
+.po-eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+.po-title { margin-top: 14px; font-size: clamp(40px, 7vw, 68px); font-weight: 800; line-height: 1.02; letter-spacing: -.03em; color: #fff; }
+.po-sub { margin-top: 6px; font-size: 17px; opacity: .9; }
+.po-summary { margin-top: 22px; max-width: 620px; font-size: 17px; line-height: 1.6; color: #fff; }
+.po-summary .hl { background: none; color: #fff; padding: 0; box-shadow: inset 0 -.45em 0 rgb(255 255 255 / .35); }
+.po-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.po-chips span { padding: 6px 12px; border: 1px solid rgb(255 255 255 / .7); border-radius: 999px; font-size: 13px; font-weight: 600; }
+.po-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.po-cell { position: relative; color: #fff; border-radius: 18px; padding: 20px 16px; min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
+.po-letter { font-size: 52px; font-weight: 800; line-height: 1; }
+.po-cname { font-size: 14px; font-weight: 600; }
+.po-pct { font-family: var(--font-mono); font-size: 20px; font-weight: 700; opacity: .92; font-variant-numeric: tabular-nums; }
+.po-cell.is-lead .po-pct { font-size: 30px; opacity: 1; }
+.po-tag { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 700; background: #fff; color: #0b1530; padding: 3px 9px; border-radius: 999px; }
+.po-block { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px 28px; color: var(--ink); }
+.po-block h2, .po-plan h2 { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.po-block p { font-size: 16px; line-height: 1.65; }
+.po-block p + p { margin-top: 10px; }
+.po-block b { color: var(--navy); }
+.po-advs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.po-adv { color: #fff; border-radius: 18px; padding: 22px 24px; }
+.po-adv h3 { font-size: 18px; font-weight: 800; color: #fff; }
+.po-adv p { margin-top: 8px; font-size: 15px; line-height: 1.55; color: #fff; }
+.po-adv b { display: inline-block; min-width: 56px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.po-plan { background: var(--navy); color: #fff; border-radius: 18px; padding: 28px; }
+.po-plan h2 { color: rgb(255 255 255 / .65); }
+.po-plan p { color: #fff; opacity: .88; font-size: 15px; max-width: 560px; }
+.po-plan .button { margin-top: 16px; }
+.po-foot { text-align: center; margin-top: 8px; }
+@media (max-width: 620px) {
+  .po-grid { grid-template-columns: 1fr 1fr; }
+  .po-hero { padding: 28px 22px; }
+  .po-cell { min-height: 150px; }
+}
+@media print { .po-plan, .po-foot { display: none; } }
